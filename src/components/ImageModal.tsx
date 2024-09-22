@@ -1,20 +1,34 @@
 import { useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./ImageModal.module.css";
+import React from "react";
 
 Modal.setAppElement("#root");
-const ImageModal = ({ modalIsOpen, closeModal, image }) => {
+
+type ImageModalProps = {
+  modalIsOpen: boolean;
+  closeModal: () => void;
+  image: string | null;
+};
+
+const ImageModal: React.FC<ImageModalProps> = ({
+  modalIsOpen,
+  closeModal,
+  image,
+}) => {
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeModal();
       }
     };
+
     window.addEventListener("keydown", handleEsc);
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [closeModal]);
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -24,7 +38,11 @@ const ImageModal = ({ modalIsOpen, closeModal, image }) => {
       overlayClassName={styles.overlay}
     >
       <div className={styles.modalcontent}>
-        <img src={image} alt="Large" className={styles.largeimage} />
+        {image ? (
+          <img src={image} alt="Large" className={styles.largeimage} />
+        ) : (
+          <p>No image available</p> // Якщо image є null
+        )}
       </div>
     </Modal>
   );

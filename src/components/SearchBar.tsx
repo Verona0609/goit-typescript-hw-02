@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FiSearch } from "react-icons/fi";
 import styles from "./SearchBar.module.css";
+import React from "react";
 
-const SearchBar = ({ onSubmit }) => {
-  const [query, setQuery] = useState("");
+interface SearchBarProps {
+  onSubmit: (query: string) => void; // Проп onSubmit - функція, що приймає рядок
+}
 
-  const handleChange = (e) => {
-    /* Ф-ія оновлює значення  при кожній зміні текстового поля */
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
+  const [query, setQuery] = useState<string>("");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleSumbit = (e) => {
+  const handleSumbit = (e: FormEvent) => {
     e.preventDefault();
     if (query.trim() === "") {
       toast.error("Please enter a search query!");
@@ -44,3 +48,4 @@ const SearchBar = ({ onSubmit }) => {
 };
 
 export default SearchBar;
+

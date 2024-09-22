@@ -1,6 +1,7 @@
 import { BallTriangle } from "react-loader-spinner";
+import React from "react";
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
     <div>
       <BallTriangle
